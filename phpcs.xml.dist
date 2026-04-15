@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer"
          xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
-    <description>The coding standard for PublishPress Authors.</description>
+    <description>The coding standard for PublishPress Bundled Translations.</description>
 
-    <file>ReviewsController.php</file>
+    <file>core/</file>
+    <file>include.php</file>
 
     <arg name="basepath" value="."/>
     <arg name="colors"/>
