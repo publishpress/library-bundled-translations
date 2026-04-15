@@ -26,7 +26,7 @@ Add the package to your plugin's `lib/composer.json`:
 Then run:
 
 ```bash
-cd lib && composer update
+composer update
 ```
 
 ## Usage
@@ -35,20 +35,20 @@ In your plugin's main PHP file, include the library and instantiate it:
 
 ```php
 // Include the library
-$includeFileRelativePath = '/publishpress/bundled-translations/include.php';
+$bundledTranslationsPath = '/publishpress/bundled-translations/include.php';
 
-if (file_exists(__DIR__ . '/lib/vendor' . $includeFileRelativePath)) {
-    require_once __DIR__ . '/lib/vendor' . $includeFileRelativePath;
-} elseif (defined('MY_PLUGIN_LIB_VENDOR_PATH') && file_exists(MY_PLUGIN_LIB_VENDOR_PATH . $includeFileRelativePath)) {
-    require_once MY_PLUGIN_LIB_VENDOR_PATH . $includeFileRelativePath;
+if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
+    require_once __DIR__ . '/lib/vendor' . $bundledTranslationsPath;
+} elseif (defined('MY_PLUGIN_LIB_VENDOR_PATH') && file_exists(MY_PLUGIN_LIB_VENDOR_PATH . $bundledTranslationsPath)) {
+    require_once MY_PLUGIN_LIB_VENDOR_PATH . $bundledTranslationsPath;
 }
 
 // Initialize bundled translations
 if (class_exists('PublishPressBundledTranslations\\BundledTranslations')) {
     new PublishPressBundledTranslations\BundledTranslations(
-        'my-text-domain',        // Plugin text domain
-        __DIR__ . '/languages',  // Path to the plugin's bundled languages directory
-        __FILE__                 // Path to the main plugin file
+        'plugin-text-domain',
+        __DIR__ . '/languages',
+        __FILE__ 
     );
 }
 ```
@@ -73,7 +73,7 @@ add_filter('publishpress_bundled_translations_enabled', '__return_false');
 
 // Disable for a specific plugin
 add_filter('publishpress_bundled_translations_enabled', function($enabled, $domain, $pluginFile) {
-    if ($domain === 'my-text-domain') {
+    if ($domain === 'plugin-text-domain') {
         return false;
     }
     return $enabled;
