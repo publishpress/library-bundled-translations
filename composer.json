@@ -1,0 +1,27 @@
+{
+    "name": "publishpress/bundled-translations",
+    "description": "Forces WordPress plugins to use their bundled translations instead of global translations from wordpress.org.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "keywords": ["wordpress plugin"],
+    "homepage": "http://publishpress.com/",
+    "authors": [
+      {
+        "name": "PublishPress",
+        "email": "help@publishpress.com"
+      }
+    ],
+    "config": {
+        "allow-plugins": {
+            "publishpress/dev-workspace": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+      "php": ">=7.2.5"
+    },
+    "require-dev": {
+      "publishpress/dev-workspace": "^1.0"
+    }
+}
