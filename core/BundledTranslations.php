@@ -1,5 +1,5 @@
 <?php
-namespace PublishPressBundledTranslations;
+namespace PublishPress\BundledTranslations;
 
 /**
  * Forces WordPress to use a plugin's bundled translations instead of

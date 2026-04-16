@@ -44,11 +44,11 @@ if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
 }
 
 // Initialize bundled translations
-if (class_exists('PublishPressBundledTranslations\\BundledTranslations')) {
-    new PublishPressBundledTranslations\BundledTranslations(
+if (class_exists('PublishPress\BundledTranslations\\BundledTranslations')) {
+    new PublishPress\BundledTranslations\BundledTranslations(
         'plugin-text-domain',
         __DIR__ . '/languages',
-        __FILE__ 
+        __FILE__
     );
 }
 ```

@@ -1,11 +1,11 @@
 <?php
 
-if (! class_exists('PublishPressBundledTranslations\\BundledTranslations')) {
-    if (! class_exists('PublishPressBundledTranslations\\Autoloader')) {
+if (! class_exists('PublishPress\BundledTranslations\\BundledTranslations')) {
+    if (! class_exists('PublishPress\BundledTranslations\\Autoloader')) {
         require_once __DIR__ . '/core/Autoloader.php';
     }
 
-    $autoloader = new PublishPressBundledTranslations\Autoloader();
+    $autoloader = new PublishPress\BundledTranslations\Autoloader();
     $autoloader->register();
-    $autoloader->addNamespace('PublishPressBundledTranslations', __DIR__ . '/core');
+    $autoloader->addNamespace('PublishPress\BundledTranslations', __DIR__ . '/core');
 }
