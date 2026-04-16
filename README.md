@@ -68,10 +68,9 @@ define('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED', false);
 ### Via WordPress Filter
 
 ```php
-// Disable for all plugins
 add_filter('publishpress_bundled_translations_enabled', '__return_false');
 
-// Disable for a specific plugin
+// Disable for a specific domain/plugin
 add_filter('publishpress_bundled_translations_enabled', function($enabled, $domain, $pluginFile) {
     if ($domain === 'plugin-text-domain') {
         return false;
