@@ -25,6 +25,8 @@
 /screenshot-*.png export-ignore
 /tests export-ignore
 /dev-workspace export-ignore
+/.cache export-ignore
+.cache/ export-ignore
 behat.yml export-ignore
 bin export-ignore
 builder.yml export-ignore
