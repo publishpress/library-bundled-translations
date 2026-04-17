@@ -57,3 +57,4 @@ webpack.config.js export-ignore
 wp-cli.local.yml export-ignore
 dev-workspace export-ignore
 .env.example export-ignore
+.env export-ignore
