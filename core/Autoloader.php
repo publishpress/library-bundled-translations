@@ -1,5 +1,5 @@
 <?php
-namespace PublishPressBundledTranslations;
+namespace PublishPress\BundledTranslations;
 
 /**
  * Based on the code found on https://www.php-fig.org/psr/psr-4/examples/.
