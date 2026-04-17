@@ -63,7 +63,7 @@ class BundledTranslations
     private function isEnabled()
     {
         $enabled = defined('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
-            ? PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED
+            ? constant('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
             : true;
 
         $enabled = apply_filters(
