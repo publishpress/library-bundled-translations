@@ -35,7 +35,7 @@ In your plugin's main PHP file, include the library and instantiate it:
 
 ```php
 // Include the library
-$bundledTranslationsPath = '/publishpress/bundled-translations/include.php';
+$bundledTranslationsPath = '/publishpress/bundled-translations/core/include.php';
 
 if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
     require_once __DIR__ . '/lib/vendor' . $bundledTranslationsPath;
@@ -44,13 +44,16 @@ if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
 }
 
 // Initialize bundled translations
-if (class_exists('PublishPressBundledTranslations\\BundledTranslations')) {
-    new PublishPressBundledTranslations\BundledTranslations(
-        'plugin-text-domain',
-        __DIR__ . '/languages',
-        __FILE__ 
-    );
-}
+add_action('plugins_loaded', function() {
+    if (class_exists('PublishPress\BundledTranslations\BundledTranslations')) {
+        $bundledTranslations = new PublishPress\BundledTranslations\BundledTranslations(
+            'plugin-text-domain',
+            __DIR__ . '/languages',
+            __FILE__
+        );
+        $bundledTranslations->init();
+    }
+}, 10);
 ```
 
 ## Disabling
@@ -68,10 +71,9 @@ define('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED', false);
 ### Via WordPress Filter
 
 ```php
-// Disable for all plugins
 add_filter('publishpress_bundled_translations_enabled', '__return_false');
 
-// Disable for a specific plugin
+// Disable for a specific domain/plugin
 add_filter('publishpress_bundled_translations_enabled', function($enabled, $domain, $pluginFile) {
     if ($domain === 'plugin-text-domain') {
         return false;

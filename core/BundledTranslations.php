@@ -1,5 +1,5 @@
 <?php
-namespace PublishPressBundledTranslations;
+namespace PublishPress\BundledTranslations;
 
 /**
  * Forces WordPress to use a plugin's bundled translations instead of
@@ -38,8 +38,6 @@ class BundledTranslations
         $this->domain = $domain;
         $this->languagesDir = rtrim($languagesDir, '/\\');
         $this->pluginFile = $pluginFile;
-
-        $this->init();
     }
 
     /**
@@ -47,7 +45,7 @@ class BundledTranslations
      *
      * @return void
      */
-    private function init()
+    public function init()
     {
         if (! $this->isEnabled()) {
             return;
@@ -63,7 +61,7 @@ class BundledTranslations
     private function isEnabled()
     {
         $enabled = defined('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
-            ? PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED
+            ? constant('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
             : true;
 
         $enabled = apply_filters(
