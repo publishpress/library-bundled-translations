@@ -38,8 +38,6 @@ class BundledTranslations
         $this->domain = $domain;
         $this->languagesDir = rtrim($languagesDir, '/\\');
         $this->pluginFile = $pluginFile;
-
-        $this->init();
     }
 
     /**
@@ -47,7 +45,7 @@ class BundledTranslations
      *
      * @return void
      */
-    private function init()
+    public function init()
     {
         if (! $this->isEnabled()) {
             return;

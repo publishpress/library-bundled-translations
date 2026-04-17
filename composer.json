@@ -1,5 +1,6 @@
 {
     "name": "publishpress/bundled-translations",
+    "version": "1.0.0",
     "description": "Forces WordPress plugins to use their bundled translations instead of global translations from wordpress.org.",
     "type": "library",
     "license": "GPL-3.0-or-later",
@@ -11,9 +12,20 @@
         "email": "help@publishpress.com"
       }
     ],
+    "extra": {
+        "generator":{
+            "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
+            "src-dir": "core",
+            "action-initialize-priority": "-190",
+            "action-register-priority": "-200"
+        }
+    },
     "config": {
         "allow-plugins": {
-            "publishpress/dev-workspace": true
+            "publishpress/dev-workspace": true,
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     },
     "minimum-stability": "dev",
@@ -22,6 +34,12 @@
       "php": ">=7.2.5"
     },
     "require-dev": {
-      "publishpress/dev-workspace": "^1.0"
+      "publishpress/dev-workspace": "^1.0",
+      "publishpress/version-loader-generator": "^1.0"
+    },
+    "scripts": {
+        "generate-files": "vendor/bin/version-loader-generator",
+        "post-install-cmd": "@generate-files",
+        "post-update-cmd": "@generate-files"
     }
 }

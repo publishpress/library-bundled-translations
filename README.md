@@ -35,7 +35,7 @@ In your plugin's main PHP file, include the library and instantiate it:
 
 ```php
 // Include the library
-$bundledTranslationsPath = '/publishpress/bundled-translations/include.php';
+$bundledTranslationsPath = '/publishpress/bundled-translations/core/include.php';
 
 if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
     require_once __DIR__ . '/lib/vendor' . $bundledTranslationsPath;
@@ -44,13 +44,16 @@ if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
 }
 
 // Initialize bundled translations
-if (class_exists('PublishPress\BundledTranslations\\BundledTranslations')) {
-    new PublishPress\BundledTranslations\BundledTranslations(
-        'plugin-text-domain',
-        __DIR__ . '/languages',
-        __FILE__
-    );
-}
+add_action('init', function() {
+    if (class_exists('PublishPress\BundledTranslations\\BundledTranslations')) {
+        $bundledTranslations = new PublishPress\BundledTranslations\BundledTranslations(
+            'plugin-text-domain',
+            __DIR__ . '/languages',
+            __FILE__
+        );
+        $bundledTranslations->init();
+    }
+});
 ```
 
 ## Disabling
