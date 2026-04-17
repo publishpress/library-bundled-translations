@@ -45,7 +45,7 @@ if (file_exists(__DIR__ . '/lib/vendor' . $bundledTranslationsPath)) {
 
 // Initialize bundled translations
 add_action('plugins_loaded', function() {
-    if (class_exists('PublishPress\BundledTranslations\\BundledTranslations')) {
+    if (class_exists('PublishPress\BundledTranslations\BundledTranslations')) {
         $bundledTranslations = new PublishPress\BundledTranslations\BundledTranslations(
             'plugin-text-domain',
             __DIR__ . '/languages',
@@ -53,7 +53,7 @@ add_action('plugins_loaded', function() {
         );
         $bundledTranslations->init();
     }
-});
+}, 10);
 ```
 
 ## Disabling
