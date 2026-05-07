@@ -1,0 +1,24 @@
+{
+    "name": "publishpress/library-bundled-translations-test-plugin-lib",
+    "description": "A simple plugin for test purposes.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "keywords": ["wordpress plugin"],
+    "homepage": "http://publishpress.com/",
+    "authors": [
+        {
+            "name": "PublishPress",
+            "email": "help@publishpress.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "publishpress/bundled-translations": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../../"
+        }
+    ]
+}

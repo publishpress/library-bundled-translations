@@ -1,0 +1,38 @@
+{
+    "name": "publishpress/library-bundled-translations-test-plugin",
+    "description": "A simple plugin for test purposes.",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "keywords": ["wordpress plugin"],
+    "homepage": "http://publishpress.com/",
+    "authors": [
+        {
+            "name": "PublishPress",
+            "email": "help@publishpress.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5"
+    },
+    "require-dev": {
+        "publishpress/dev-workspace": "^1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true,
+            "publishpress/dev-workspace": true
+        },
+        "process-timeout": 0
+    },
+    "extra": {
+        "plugin-slug": "library-bundled-translations-test-plugin",
+        "plugin-name": "library-bundled-translations-test-plugin",
+        "plugin-folder": "library-bundled-translations-test-plugin",
+        "version-constant": "LIBRARY_BUNDLED_TRANSLATIONS_TEST_PLUGIN_VERSION",
+        "plugin-lang-domain": "library-bundled-translations-test-plugin",
+        "plugin-github-repo": "publishpress/library-bundled-translations-test-plugin",
+        "plugin-composer-package": "publishpress/library-bundled-translations-test-plugin"
+    }
+}
