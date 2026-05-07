@@ -3,6 +3,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [UNRELEASED]
 
+- Added: Added support for bundled .l10n.php (performant) translation file redirection via load_translation_file.
 - Added: Now supports script translation file overrides via `load_script_translation_file` filter
 - Improved: Refined detection of global and plugin translation paths; avoids redirecting Loco Translate overrides
 - Improved: Defensive code for edge-case file paths (JIT translation loads in WP 6.7+)
