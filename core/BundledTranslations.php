@@ -42,7 +42,7 @@ class BundledTranslations
      * @param string $languagesDir Absolute path to the plugin's bundled languages directory.
      * @param string $pluginFile   Absolute path to the main plugin file.
      */
-    public function __construct($domain, $languagesDir, $pluginFile)
+    public function __construct(string $domain, string $languagesDir, string $pluginFile)
     {
         $this->domain = $domain;
         $this->languagesDir = rtrim($languagesDir, '/\\');
@@ -54,7 +54,7 @@ class BundledTranslations
      *
      * @return void
      */
-    public function init()
+    public function init(): void
     {
         if (! $this->isEnabled()) {
             return;
@@ -75,7 +75,7 @@ class BundledTranslations
      * @param string $locale Locale being loaded.
      * @return string Path to the bundled translation file when redirected, otherwise the original $file.
      */
-    public function filterTranslationFile($file, $domain, $locale)
+    public function filterTranslationFile(string $file, string $domain, string $locale): string
     {
         $translationSuffix = $this->getBundledTranslationSuffix($file);
         if (null === $translationSuffix) {
@@ -125,7 +125,7 @@ class BundledTranslations
      * @param string $domain The domain to check.
      * @return bool
      */
-    private function isPluginDomain($domain): bool
+    private function isPluginDomain(string $domain): bool
     {
         return $domain === $this->domain;
     }
