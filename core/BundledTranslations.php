@@ -2,8 +2,14 @@
 namespace PublishPress\BundledTranslations;
 
 /**
- * Forces WordPress to use a plugin's bundled translations instead of
- * the global translations downloaded from wordpress.org.
+ * Redirects translation loads to the plugin's bundled languages directory when
+ * WordPress would load from {@see WP_LANG_DIR}/plugins/ (language packs), or when
+ * it resolves a different path for this domain than the canonical bundled file
+ * (common with just-in-time loading under WP 6.7+, which often uses the plugin
+ * languages folder and not the global languages path).
+ *
+ * Paths under {@see WP_LANG_DIR}/loco/plugins/ (Loco Translate custom overrides) are
+ * never redirected, so site-specific translations from Loco keep working.
  */
 class BundledTranslations
 {
@@ -56,10 +62,63 @@ class BundledTranslations
     }
 
     /**
+     * Filter the .mo file path: when WordPress targets {@see WP_LANG_DIR}/plugins/,
+     * replace it with the plugin's bundled .mo in the bundled languages directory if present.
+     * Other resolved paths are returned unchanged.
+     *
+     * @param string $mofile Path to the .mo file.
+     * @param string $domain Text domain.
+     * @return string Path to the bundled .mo when redirected, otherwise the original $mofile.
+     */
+    public function filterMoFile($mofile, $domain)
+    {
+        if (! $this->shouldForceUseOfBundledTranslations($mofile, $domain, '.mo')) {
+            return $mofile;
+        }
+
+        // Force the use of the plugin's bundled translations.
+        $locale = $this->getLocale();
+        $pluginMofile = $this->languagesDir . '/' . $this->domain . '-' . $locale . '.mo';
+
+        if (! file_exists($pluginMofile)) {
+            return $mofile;
+        }
+
+        return $pluginMofile;
+    }
+
+    /**
+     * Filter the script translation file path: when WordPress targets {@see WP_LANG_DIR}/plugins/,
+     * replace it with the plugin's bundled JSON in the bundled languages directory if present.
+     * Other resolved paths are returned unchanged.
+     *
+     * @param string $file Path to the script translation file.
+     * @param string $handle Script handle.
+     * @param string $domain Text domain.
+     * @return string Path to the bundled JSON when redirected, otherwise the original $file.
+     */
+    public function filterScriptTranslationFile(string $file, string $handle, string $domain): string
+    {
+        if (! $this->shouldForceUseOfBundledTranslations($file, $domain, '.json')) {
+            return $file;
+        }
+
+        // Force the use of the plugin's bundled translations.
+        $locale = $this->getLocale();
+        $pluginScriptTranslationFile = $this->languagesDir . '/' . $this->domain . '-' . $locale . '.json';
+
+        if (! file_exists($pluginScriptTranslationFile)) {
+            return $file;
+        }
+
+        return $pluginScriptTranslationFile;
+    }
+
+    /**
      * Check whether bundled translations are enabled.
      * @return bool
      */
-    private function isEnabled()
+    private function isEnabled(): bool
     {
         $enabled = defined('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
             ? constant('PUBLISHPRESS_BUNDLED_TRANSLATIONS_ENABLED')
@@ -76,59 +135,88 @@ class BundledTranslations
     }
 
     /**
-     * Filter the .mo file path to use the plugin's bundled translations
-     * when WordPress tries to load from the global languages directory.
-     *
-     * @param string $mofile Path to the .mo file.
-     * @param string $domain Text domain.
-     * @return string Filtered path to the .mo file.
+     * Check whether the domain is the plugin's domain.
+     * @param string $domain The domain to check.
+     * @return bool
      */
-    public function filterMoFile($mofile, $domain)
+    private function isPluginDomain($domain): bool
     {
-        if ($domain !== $this->domain) {
-            return $mofile;
-        }
-
-        if (false === strpos($mofile, WP_LANG_DIR . '/plugins/')) {
-            return $mofile;
-        }
-
-        $locale = determine_locale();
-        $pluginMofile = $this->languagesDir . '/' . $this->domain . '-' . $locale . '.mo';
-
-        if (! file_exists($pluginMofile)) {
-            return $mofile;
-        }
-
-        return $pluginMofile;
+        return $domain === $this->domain;
     }
 
     /**
-     * Filter the script translation file path to use the plugin's bundled translations
-     * when WordPress tries to load from the global languages directory.
+     * Check whether the file path is resolved under the global WP languages plugins directory.
      *
-     * @param string $file Path to the script translation file.
-     * @param string $handle Script handle.
-     * @param string $domain Text domain.
-     * @return string Filtered path to the script translation file.
+     * @param string $filePath Absolute path to the translation file (.mo or .json).
+     * @return bool True when the path is under {@see WP_LANG_DIR}/plugins/.
      */
-    public function filterScriptTranslationFile(string $file, string $handle, string $domain): string
+    private function isFromGlobalLanguagesDirectory(string $filePath): bool
     {
-        if ($domain !== $this->domain) {
-            return $file;
+        return false !== strpos($filePath, WP_LANG_DIR . '/plugins/');
+    }
+
+    /**
+     * Check whether the file path is under Loco Translate's plugin override directory.
+     *
+     * @param string $filePath Absolute path to the translation file (.mo or .json).
+     * @return bool True when the path is under {@see WP_LANG_DIR}/loco/plugins/.
+     */
+    private function isFromLocoPluginsLanguagesDirectory(string $filePath): bool
+    {
+        return false !== strpos($filePath, WP_LANG_DIR . '/loco/plugins/');
+    }
+
+    /**
+     * Get the locale.
+     * @return string
+     */
+    private function getLocale(): string
+    {
+        return determine_locale();
+    }
+
+    /**
+     * Check whether a file path already points to the canonical bundled file.
+     *
+     * @param string $filePath Absolute path WordPress resolved.
+     * @param string $suffix Bundled filename suffix, e.g. ".mo" or ".json".
+     * @return bool True when $filePath matches the canonical bundled path.
+     */
+    private function isCanonicalBundledPath(string $filePath, string $suffix): bool
+    {
+        $locale = $this->getLocale();
+        $bundledPath = $this->languagesDir . '/' . $this->domain . '-' . $locale . $suffix;
+
+        return wp_normalize_path($filePath) === wp_normalize_path($bundledPath);
+    }
+
+    /**
+     * Check whether to redirect the load to the plugin's bundled translations.
+     *
+     * True when the domain matches and either (1) WordPress chose a file under the
+     * global plugin language packs directory, or (2) the resolved path is not already
+     * the bundled file for the current locale (covers JIT paths under the plugin).
+     * False when the path is under Loco Translate's {@see WP_LANG_DIR}/loco/plugins/ tree.
+     *
+     * @param string $filePath Absolute path to the translation file WordPress resolved.
+     * @param string $textDomain Text domain.
+     * @param string $suffix Bundled filename suffix, e.g. ".mo" or ".json".
+     * @return bool Whether to replace $filePath with the path under the bundled languages directory.
+     */
+    private function shouldForceUseOfBundledTranslations(string $filePath, $textDomain, string $suffix): bool
+    {
+        if (! $this->isPluginDomain($textDomain)) {
+            return false;
         }
 
-        if (false === strpos($file, WP_LANG_DIR . '/plugins/')) {
-            return $file;
+        if ($this->isFromLocoPluginsLanguagesDirectory($filePath)) {
+            return false;
         }
 
-        $locale = determine_locale();
-        $pluginScriptTranslationFile = $this->languagesDir . '/' . $this->domain . '-' . $locale . '.json';
-
-        if (! file_exists($pluginScriptTranslationFile)) {
-            return $file;
+        if ($this->isFromGlobalLanguagesDirectory($filePath)) {
+            return true;
         }
 
-        return $pluginScriptTranslationFile;
+        return ! $this->isCanonicalBundledPath($filePath, $suffix);
     }
 }
