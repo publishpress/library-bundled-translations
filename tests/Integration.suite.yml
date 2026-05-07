@@ -1,0 +1,5 @@
+actor: IntegrationTester
+suite_namespace: Tests\Integration
+modules:
+    # enable helpers as array
+    enabled: []
