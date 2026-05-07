@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb71a1a2c6439c2d5d59d60d589cd46d",
+    "content-hash": "cb308828aae1a2b5f9ff940c271f1c5a",
     "packages": [],
     "packages-dev": [
         {
@@ -6114,16 +6114,16 @@
         },
         {
             "name": "publishpress/version-loader-generator",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/publishpress/library-version-loader-generator.git",
-                "reference": "07b8fbb43d329f6570645e9e75758002e8c96b6f"
+                "reference": "464883567ad365b3e41b661886530c6ea91da870"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/publishpress/library-version-loader-generator/zipball/07b8fbb43d329f6570645e9e75758002e8c96b6f",
-                "reference": "07b8fbb43d329f6570645e9e75758002e8c96b6f",
+                "url": "https://api.github.com/repos/publishpress/library-version-loader-generator/zipball/464883567ad365b3e41b661886530c6ea91da870",
+                "reference": "464883567ad365b3e41b661886530c6ea91da870",
                 "shasum": ""
             },
             "require": {
@@ -6153,9 +6153,9 @@
             "description": "Composer script to generate the version loader files for libraries on PubilshPress",
             "support": {
                 "issues": "https://github.com/publishpress/library-version-loader-generator/issues",
-                "source": "https://github.com/publishpress/library-version-loader-generator/tree/1.2.3"
+                "source": "https://github.com/publishpress/library-version-loader-generator/tree/1.2.4"
             },
-            "time": "2025-07-23T02:57:47+00:00"
+            "time": "2026-05-07T18:44:16+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

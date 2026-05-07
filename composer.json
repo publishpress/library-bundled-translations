@@ -1,6 +1,5 @@
 {
     "name": "publishpress/bundled-translations",
-    "version": "1.0.0",
     "description": "Forces WordPress plugins to use their bundled translations instead of global translations from wordpress.org.",
     "type": "library",
     "license": "GPL-3.0-or-later",
@@ -14,6 +13,7 @@
     ],
     "extra": {
         "generator":{
+            "version": "1.0.0",
             "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
             "src-dir": "core",
             "action-initialize-priority": "-190",
