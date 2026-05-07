@@ -18,7 +18,14 @@
             "src-dir": "core",
             "action-initialize-priority": "-190",
             "action-register-priority": "-200"
-        }
+        },
+        "plugin-slug": "bundled-translations",
+        "plugin-name": "bundled-translations",
+        "plugin-folder": "bundled-translations",
+        "version-constant": "PUBLISHPRESS_BUNDLED_TRANSLATIONS_VERSION",
+        "plugin-lang-domain": "bundled-translations",
+        "plugin-github-repo": "publishpress/bundled-translations",
+        "plugin-composer-package": "publishpress/bundled-translations"
     },
     "config": {
         "allow-plugins": {
@@ -40,8 +47,8 @@
     },
     "scripts": {
         "generate-files": "vendor/bin/version-loader-generator",
-        "update-dummy-lib": "cd tests/Support/DummyPlugin/lib && composer update",
-        "update-dummy": "cd tests/Support/DummyPlugin && composer update",
+        "update-dummy-lib": "cd tests/Support/Data/DummyPlugin/lib && composer update",
+        "update-dummy": "cd tests/Support/Data/DummyPlugin && composer update",
         "post-install-cmd": "@generate-files",
         "post-update-cmd": "@generate-files"
     }

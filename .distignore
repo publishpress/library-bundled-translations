@@ -10,6 +10,8 @@
 .github
 .gitignore
 .gitlab-ci.yml
+.phpcs-php-compatibility.xml
+.phpcs.xml
 .phplint.yml
 .travis.yml
 .vscode

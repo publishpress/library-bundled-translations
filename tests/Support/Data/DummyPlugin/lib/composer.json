@@ -17,8 +17,14 @@
     },
     "repositories": [
         {
+            "packagist.org": false
+        },
+        {
             "type": "path",
-            "url": "../../../"
+            "url": "../../../../..",
+            "options": {
+                "symlink": true
+            }
         }
     ]
 }

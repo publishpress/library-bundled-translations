@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19125692c404633cceae78fbc9cc9b02",
+    "content-hash": "3621a2a409db46d57daed92b46fd058b",
     "packages": [
         {
             "name": "publishpress/bundled-translations",
             "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/publishpress/library-bundled-translations.git",
-                "reference": "e69381e8695fa8e6de3fc9c9d534a133ab856532"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/publishpress/library-bundled-translations/zipball/e69381e8695fa8e6de3fc9c9d534a133ab856532",
-                "reference": "e69381e8695fa8e6de3fc9c9d534a133ab856532",
-                "shasum": ""
+                "type": "path",
+                "url": "../../../../..",
+                "reference": "fd10931b5c9dffc8a39b04449492a1bb06998ebe"
             },
             "require": {
                 "php": ">=7.2.5"
@@ -30,13 +24,36 @@
             "type": "library",
             "extra": {
                 "generator": {
-                    "src-dir": "core",
                     "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
-                    "action-register-priority": "-200",
-                    "action-initialize-priority": "-190"
-                }
+                    "src-dir": "core",
+                    "action-initialize-priority": "-190",
+                    "action-register-priority": "-200"
+                },
+                "plugin-slug": "bundled-translations",
+                "plugin-name": "bundled-translations",
+                "plugin-folder": "bundled-translations",
+                "version-constant": "PUBLISHPRESS_BUNDLED_TRANSLATIONS_VERSION",
+                "plugin-lang-domain": "bundled-translations",
+                "plugin-github-repo": "publishpress/bundled-translations",
+                "plugin-composer-package": "publishpress/bundled-translations"
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "generate-files": [
+                    "vendor/bin/version-loader-generator"
+                ],
+                "update-dummy-lib": [
+                    "cd tests/Support/Data/DummyPlugin/lib && composer update"
+                ],
+                "update-dummy": [
+                    "cd tests/Support/Data/DummyPlugin && composer update"
+                ],
+                "post-install-cmd": [
+                    "@generate-files"
+                ],
+                "post-update-cmd": [
+                    "@generate-files"
+                ]
+            },
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -51,11 +68,10 @@
             "keywords": [
                 "wordpress plugin"
             ],
-            "support": {
-                "issues": "https://github.com/publishpress/library-bundled-translations/issues",
-                "source": "https://github.com/publishpress/library-bundled-translations/tree/v1.0.0"
-            },
-            "time": "2026-04-17T14:05:17+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         }
     ],
     "packages-dev": [],
