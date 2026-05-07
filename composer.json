@@ -1,6 +1,5 @@
 {
     "name": "publishpress/bundled-translations",
-    "version": "1.0.0",
     "description": "Forces WordPress plugins to use their bundled translations instead of global translations from wordpress.org.",
     "type": "library",
     "license": "GPL-3.0-or-later",
@@ -14,11 +13,19 @@
     ],
     "extra": {
         "generator":{
+            "version": "1.0.1",
             "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
             "src-dir": "core",
             "action-initialize-priority": "-190",
             "action-register-priority": "-200"
-        }
+        },
+        "plugin-slug": "bundled-translations",
+        "plugin-name": "bundled-translations",
+        "plugin-folder": "bundled-translations",
+        "version-constant": "PUBLISHPRESS_BUNDLED_TRANSLATIONS_VERSION",
+        "plugin-lang-domain": "bundled-translations",
+        "plugin-github-repo": "publishpress/bundled-translations",
+        "plugin-composer-package": "publishpress/bundled-translations"
     },
     "config": {
         "allow-plugins": {
@@ -26,7 +33,8 @@
             "php-http/discovery": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true
-        }
+        },
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -39,6 +47,8 @@
     },
     "scripts": {
         "generate-files": "vendor/bin/version-loader-generator",
+        "update-dummy-lib": "cd tests/Support/Data/DummyPlugin/lib && composer update",
+        "update-dummy": "cd tests/Support/Data/DummyPlugin && composer update",
         "post-install-cmd": "@generate-files",
         "post-update-cmd": "@generate-files"
     }

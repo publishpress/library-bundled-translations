@@ -1,0 +1,11 @@
+name: Integration Tests
+permissions:
+  contents: read
+on:
+  workflow_call:
+
+  workflow_dispatch:
+
+jobs:
+  check:
+    uses: publishpress/github-workflows/.github/workflows/integration-tests.yml@v3

@@ -1,0 +1,56 @@
+# Copyright (C) 2026 Test Suite
+# This file is distributed under the same license as the Dummy Plugin plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dummy Plugin 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-07T15:34:15+00:00\n"
+"PO-Revision-Date: 2026-05-07 16:00+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: library-bundled-translations-test-plugin\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : (n >= 2 && n <= 4) ? 1 : 2;\n"
+
+#: library-bundled-translations-test-plugin.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "Dummy Plugin"
+msgstr "Dummy Plugin"
+
+#: library-bundled-translations-test-plugin.php:4
+#. Description of the plugin
+msgid "A simple plugin for test purposes."
+msgstr "Jednoduchý plugin pro testovací účely."
+
+#: library-bundled-translations-test-plugin.php:6
+#. Author of the plugin
+msgid "Test Suite"
+msgstr "Testovací sada"
+
+#: library-bundled-translations-test-plugin.php:27
+#: assets/init.jsx:3
+msgid "Hello, world!"
+msgstr "Ahoj, světe!"
+
+#: library-bundled-translations-test-plugin.php:29
+#: assets/init.jsx:4
+msgid "Goodbye, world!"
+msgstr "Sbohem, světe!"
+
+#: library-bundled-translations-test-plugin.php:31
+#: assets/init.jsx:5
+msgid "This is a test string."
+msgstr "Toto je testovací řetězec."
+
+#: library-bundled-translations-test-plugin.php:33
+#: assets/init.jsx:6
+msgid "Another string for translation."
+msgstr "Další řetězec k překladu."
+
+#: assets/init.jsx:7
+msgid "This string is only in the JS file."
+msgstr "Tento řetězec je pouze v souboru JS."

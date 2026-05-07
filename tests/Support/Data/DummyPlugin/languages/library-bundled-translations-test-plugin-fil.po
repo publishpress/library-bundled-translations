@@ -1,0 +1,58 @@
+# Copyright (C) 2026 Test Suite
+# This file is distributed under the same license as the Dummy Plugin plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dummy Plugin 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-07T15:56:46+00:00\n"
+"PO-Revision-Date: 2026-05-07 16:00+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: library-bundled-translations-test-plugin\n"
+"|| n % 10 == 6 || n % 10 == 9);\n"
+"Language: fil\n"
+"|| n % 10 == 6 || n % 10 == 9);: \n"
+"Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9);\n"
+
+#: library-bundled-translations-test-plugin.php:3, fuzzy
+#. Plugin Name of the plugin
+msgid "Dummy Plugin"
+msgstr "Dummy Plugin"
+
+#: library-bundled-translations-test-plugin.php:4
+#. Description of the plugin
+msgid "A simple plugin for test purposes."
+msgstr "Isang simpleng plugin para sa mga layuning pagsubok."
+
+#: library-bundled-translations-test-plugin.php:6, fuzzy
+#. Author of the plugin
+msgid "Test Suite"
+msgstr "Test Suite"
+
+#: library-bundled-translations-test-plugin.php:27
+#: assets/init.jsx:3
+msgid "Hello, world!"
+msgstr "Kamusta, mundo!"
+
+#: library-bundled-translations-test-plugin.php:29
+#: assets/init.jsx:4
+msgid "Goodbye, world!"
+msgstr "Paalam, mundo!"
+
+#: library-bundled-translations-test-plugin.php:31
+#: assets/init.jsx:5
+msgid "This is a test string."
+msgstr "Ito ay isang string na pagsubok."
+
+#: library-bundled-translations-test-plugin.php:33
+#: assets/init.jsx:6
+msgid "Another string for translation."
+msgstr "Isa pang string para sa pagsasalin."
+
+#: assets/init.jsx:7
+msgid "This string is only in the JS file."
+msgstr "Ang string na ito ay nasa JS file lamang."

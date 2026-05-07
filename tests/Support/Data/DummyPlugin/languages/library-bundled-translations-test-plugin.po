@@ -1,0 +1,48 @@
+# Copyright (C) 2026 Test Suite
+# This file is distributed under the same license as the Dummy Plugin plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dummy Plugin 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-05-07T15:34:15+00:00\n"
+"PO-Revision-Date: 2026-05-07 15:35+0000\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: library-bundled-translations-test-plugin\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: yor\n"
+
+#: library-bundled-translations-test-plugin.php:3
+#. Plugin Name of the plugin
+msgid "Dummy Plugin"
+msgstr "Plugin Dummy"
+
+#: library-bundled-translations-test-plugin.php:4
+#. Description of the plugin
+msgid "A simple plugin for test purposes."
+msgstr "Plugin kan ti o rọrun fun awọn idi idanwo."
+
+#: library-bundled-translations-test-plugin.php:6, fuzzy
+#. Author of the plugin
+msgid "Test Suite"
+msgstr "Test Suite"
+
+#: library-bundled-translations-test-plugin.php:23
+msgid "Hello, world!"
+msgstr "Bawọ, ayé!"
+
+#: library-bundled-translations-test-plugin.php:25
+msgid "Goodbye, world!"
+msgstr "O dabọ, ayé!"
+
+#: library-bundled-translations-test-plugin.php:27
+msgid "This is a test string."
+msgstr "Eyi jẹ okun idanwo."
+
+#: library-bundled-translations-test-plugin.php:29
+msgid "Another string for translation."
+msgstr "Okun míràn fun itumọ."
