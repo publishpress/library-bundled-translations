@@ -1,6 +1,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[UNRELEASED]
+
+- Added: Now supports script translation file overrides via `load_script_translation_file` filter
+- Improved: Refined detection of global and plugin translation paths; avoids redirecting Loco Translate overrides
+- Improved: Defensive code for edge-case file paths (JIT translation loads in WP 6.7+)
+
 [1.0.0] - 15 Apr, 2025
 
 - Added: Initial release of the Bundled Translations library
