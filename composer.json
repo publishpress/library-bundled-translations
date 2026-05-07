@@ -27,7 +27,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true
         },
-        "timeout": 0
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
