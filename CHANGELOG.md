@@ -1,9 +1,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[1.0.3] - 13 May, 2026
+
+- Fixed: Renamed the changelog file to use the correct .md extension, ensuring it is excluded from releases as intended.
+
 [1.0.2] - 8 May, 2026
 
-- Fixed BundledTranslations issue when WP passes false as $file; improved filterScriptTranslationFile for false inputs and JS translation file handling.
+- Fixed: Fixed BundledTranslations issue when WP passes false as $file; improved filterScriptTranslationFile for false inputs and JS translation file handling.
 
 [1.0.1] - 7 May, 2026
 
