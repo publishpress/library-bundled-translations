@@ -13,7 +13,7 @@
     ],
     "extra": {
         "generator":{
-            "version": "1.0.2",
+            "version": "1.0.3",
             "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
             "src-dir": "core",
             "action-initialize-priority": "-190",
