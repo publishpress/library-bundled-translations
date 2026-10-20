@@ -13,7 +13,7 @@
     ],
     "extra": {
         "generator":{
-            "version": "1.0.3",
+            "version": "1.0.4",
             "lib-class-test": "class_exists('PublishPress\\BundledTranslations\\BundledTranslations')",
             "src-dir": "core",
             "action-initialize-priority": "-190",
@@ -32,7 +32,8 @@
             "publishpress/dev-workspace": true,
             "php-http/discovery": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "composer/installers": true
         },
         "process-timeout": 0
     },
