@@ -21,7 +21,7 @@ class VersionLoaderCest
         $I->assertEquals([
             '2.0.0.1' => 'PublishPress\BundledTranslations\initialize2Dot0Dot0Dot1',
             '2.0.0.2' => 'PublishPress\BundledTranslations\initialize2Dot0Dot0Dot2',
-            '1.0.4' => 'PublishPress\BundledTranslations\initialize1Dot0Dot4',
+            '1.0.5' => 'PublishPress\BundledTranslations\initialize1Dot0Dot5',
         ], $registeredVersions);
     }
 
@@ -31,7 +31,7 @@ class VersionLoaderCest
 
         $latestVersion = $loader->latestVersion();
 
-        $I->assertEquals('1.0.4', $latestVersion);
+        $I->assertEquals('1.0.5', $latestVersion);
     }
 
     public function testLatestVersionCallbackIsTheLastOne(IntegrationTester $I)
@@ -40,7 +40,7 @@ class VersionLoaderCest
 
         $latestVersionCallback = $loader->latestVersionCallback();
 
-        $I->assertEquals('PublishPress\BundledTranslations\initialize1Dot0Dot4', $latestVersionCallback);
+        $I->assertEquals('PublishPress\BundledTranslations\initialize1Dot0Dot5', $latestVersionCallback);
     }
 
     public function testInitializeLatestVersion(IntegrationTester $I)
@@ -51,7 +51,7 @@ class VersionLoaderCest
 
         $I->assertTrue(class_exists('PublishPress\BundledTranslations\BundledTranslations'));
 
-        $didAction = (bool)did_action('publishpress_bundled_translations_1Dot0Dot4_initialized');
+        $didAction = (bool)did_action('publishpress_bundled_translations_1Dot0Dot5_initialized');
         $I->assertTrue($didAction);
     }
 }
