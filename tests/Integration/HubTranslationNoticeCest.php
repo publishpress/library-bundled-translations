@@ -43,6 +43,7 @@ final class HubTranslationNoticeCest
 
         HubTranslationNotice::resetRegisteredNotices();
         wp_set_current_user(0);
+        add_filter('publishpress_bundled_translations_hub_notice_enabled', '__return_true');
     }
 
     public function _after(IntegrationTester $I): void
@@ -85,7 +86,35 @@ final class HubTranslationNoticeCest
         $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
 
         $I->assertTrue($notice->shouldDisplay());
-        $I->assertStringContainsString('https://publishpress.com/hub', $this->captureRender($notice));
+
+        $html = $this->captureRender($notice);
+        $I->assertStringContainsString('is-dismissible', $html);
+        $I->assertStringContainsString('https://publishpress.com/hub', $html);
+        $I->assertStringContainsString(
+            'publishpress_bundled_translations_dismiss_hub_notice',
+            $this->commonInlineScript()
+        );
+    }
+
+    public function hidesNoticeAfterTheCurrentUserDismissesIt(IntegrationTester $I): void
+    {
+        $this->setSiteLocale('de_DE');
+        $this->loginWithLocale('de_DE', 'administrator');
+
+        $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
+
+        $I->assertTrue($notice->shouldDisplay());
+
+        HubTranslationNotice::dismissForCurrentUser();
+
+        $I->assertFalse($notice->shouldDisplay());
+
+        $this->loginWithLocale('de_DE', 'administrator');
+
+        $I->assertTrue(
+            $notice->shouldDisplay(),
+            'Dismissal is stored per user, so another administrator still sees the notice.'
+        );
     }
 
     public function showsNoticeWhenSiteLanguageOptionDiffersFromTheRuntimeLocale(IntegrationTester $I): void
@@ -260,7 +289,14 @@ final class HubTranslationNoticeCest
             $this->originalSiteLanguage = is_string($current) ? $current : '';
         }
 
+        // Settings → General only lists installed language packs. Bypass that
+        // check so the test can store a locale that is not installed in wp_test.
+        $allowLocale = static function () use ($locale): string {
+            return $locale;
+        };
+        add_filter('sanitize_option_WPLANG', $allowLocale, 99);
         update_option('WPLANG', $locale);
+        remove_filter('sanitize_option_WPLANG', $allowLocale, 99);
     }
 
     private function setRuntimeLocale(string $locale): void
@@ -301,5 +337,19 @@ final class HubTranslationNoticeCest
         $html = ob_get_clean();
 
         return (string) $html;
+    }
+
+    private function commonInlineScript(): string
+    {
+        $chunks = [];
+
+        foreach (['before', 'after'] as $position) {
+            $inline = wp_scripts()->get_data('common', $position);
+            if (is_array($inline)) {
+                $chunks[] = implode("\n", $inline);
+            }
+        }
+
+        return implode("\n", $chunks);
     }
 }

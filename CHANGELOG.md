@@ -1,6 +1,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[1.0.6] - UNRELEASED
+
+- Added: The Hub translation notice can be dismissed, and it stays hidden for that user on that site.   
+
 [1.0.5] - 22 Oct, 2026
 
 - Fixed: Disables by default the admin notice about installing PublishPress Hub for translation updates.

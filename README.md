@@ -60,7 +60,7 @@ add_action('plugins_loaded', function() {
 
 Bundled files do not receive translation updates from translate.wordpress.org. When the site language or the current user's language is a non-English locale shipped in the plugin's `languages/` directory, the library shows one admin warning to users who can install plugins. The warning links to [PublishPress Hub](https://publishpress.com/hub), which delivers those translation updates.
 
-The warning is skipped when PublishPress Hub is active (`PUBLISHPRESS_HUB_VERSION` is defined).
+The warning is skipped when PublishPress Hub is active (`PUBLISHPRESS_HUB_VERSION` is defined). Dismissing it hides the warning for that user on that site.
 
 ```php
 add_filter('publishpress_bundled_translations_hub_notice_enabled', '__return_false');
