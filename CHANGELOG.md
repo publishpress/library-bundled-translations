@@ -1,6 +1,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[1.0.5] - 22 Oct, 2026
+
+- Fixed: Disables by default the admin notice about installing PublishPress Hub for translation updates.
+
 [1.0.4] - 20 Oct, 2026
 
 - Added: Admin warning when the site language or the current user's language is a non-English locale shipped with the plugin, asking them to install [PublishPress Hub](https://publishpress.com/hub) for translation updates.
