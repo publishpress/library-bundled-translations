@@ -3,7 +3,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [1.0.6] - UNRELEASED
 
-- Added: The Hub translation notice can be dismissed, and it stays hidden for that user on that site.   
+- Added: The Hub translation notice can be dismissed, and it stays hidden for that user on that site.
+- Added: The Hub translation notice shows only on admin screen ids the plugin lists.   
 
 [1.0.5] - 22 Oct, 2026
 

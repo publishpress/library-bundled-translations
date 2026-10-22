@@ -7,6 +7,7 @@ namespace PublishPress\BundledTranslations;
  * so those translations can be updated.
  *
  * One notice is shown per request even when several plugins register the library.
+ * It is limited to admin screen ids the plugin lists for its own pages.
  */
 class HubTranslationNotice
 {
@@ -139,15 +140,20 @@ class HubTranslationNotice
     /**
      * Whether the current request should see the Hub translation notice.
      *
-     * True when the site locale or the current user's locale is a non-English
-     * locale shipped in the bundled languages directory, Hub is not active, the
-     * user can install plugins, and that user has not dismissed the notice.
+     * True when the current admin screen is one this plugin allowed, the site
+     * locale or the current user's locale is a non-English locale shipped in
+     * the bundled languages directory, Hub is not active, the user can install
+     * plugins, and that user has not dismissed the notice.
      *
      * @return bool
      */
     public function shouldDisplay(): bool
     {
         if (! $this->isNoticeEnabled()) {
+            return false;
+        }
+
+        if (! $this->isOnAllowedScreen()) {
             return false;
         }
 
@@ -248,6 +254,44 @@ class HubTranslationNotice
             false,
             $this->domain
         );
+    }
+
+    /**
+     * Check whether the current admin screen is one this plugin opted into.
+     *
+     * The screen list defaults to empty, so the notice stays off every page
+     * until the plugin names its own screen ids.
+     *
+     * @return bool
+     */
+    private function isOnAllowedScreen(): bool
+    {
+        if (! function_exists('get_current_screen')) {
+            return false;
+        }
+
+        $screen = get_current_screen();
+        if (! $screen instanceof \WP_Screen || '' === $screen->id) {
+            return false;
+        }
+
+        $screens = apply_filters(
+            'publishpress_bundled_translations_hub_notice_screens',
+            [],
+            $this->domain
+        );
+
+        if (! is_array($screens)) {
+            return false;
+        }
+
+        foreach ($screens as $allowedScreenId) {
+            if (is_string($allowedScreenId) && $allowedScreenId === $screen->id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
