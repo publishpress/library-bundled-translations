@@ -58,20 +58,28 @@ add_action('plugins_loaded', function() {
 
 ## Translation updates
 
-Bundled files do not receive translation updates from translate.wordpress.org. When the site language or the current user's language is a non-English locale shipped in the plugin's `languages/` directory, the library shows one admin warning to users who can install plugins. The warning links to [PublishPress Hub](https://publishpress.com/hub), which delivers those translation updates.
+Bundled files do not receive translation updates from translate.wordpress.org. When the site language or the current user's language is a non-English locale shipped in the plugin's `languages/` directory, the library can show one admin warning to users who can install plugins. The warning links to [PublishPress Hub](https://publishpress.com/hub), which delivers those translation updates.
 
-The warning is skipped when PublishPress Hub is active (`PUBLISHPRESS_HUB_VERSION` is defined).
+The warning stays off until the plugin enables it and lists the admin screen ids for its own pages. It is skipped when PublishPress Hub is active (`PUBLISHPRESS_HUB_VERSION` is defined). Dismissing it hides the warning for that user on that site.
 
 ```php
-add_filter('publishpress_bundled_translations_hub_notice_enabled', '__return_false');
-
-// Hide the notice for one text domain.
 add_filter('publishpress_bundled_translations_hub_notice_enabled', function ($enabled, $domain) {
     if ($domain === 'plugin-text-domain') {
-        return false;
+        return true;
     }
 
     return $enabled;
+}, 10, 2);
+
+add_filter('publishpress_bundled_translations_hub_notice_screens', function ($screens, $domain) {
+    if ($domain !== 'plugin-text-domain') {
+        return $screens;
+    }
+
+    $screens[] = 'toplevel_page_plugin-slug';
+    $screens[] = 'plugin-slug_page_plugin-settings';
+
+    return $screens;
 }, 10, 2);
 ```
 

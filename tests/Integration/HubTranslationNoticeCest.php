@@ -43,6 +43,14 @@ final class HubTranslationNoticeCest
 
         HubTranslationNotice::resetRegisteredNotices();
         wp_set_current_user(0);
+        add_filter('publishpress_bundled_translations_hub_notice_enabled', '__return_true');
+        add_filter(
+            'publishpress_bundled_translations_hub_notice_screens',
+            static function (): array {
+                return ['toplevel_page_hub-notice-test'];
+            }
+        );
+        $this->setAdminScreen('toplevel_page_hub-notice-test');
     }
 
     public function _after(IntegrationTester $I): void
@@ -58,6 +66,7 @@ final class HubTranslationNoticeCest
         }
 
         remove_all_filters('publishpress_bundled_translations_hub_notice_enabled');
+        remove_all_filters('publishpress_bundled_translations_hub_notice_screens');
         remove_all_filters('publishpress_bundled_translations_hub_plugin_active');
         remove_all_filters('publishpress_bundled_translations_enabled');
 
@@ -85,7 +94,35 @@ final class HubTranslationNoticeCest
         $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
 
         $I->assertTrue($notice->shouldDisplay());
-        $I->assertStringContainsString('https://publishpress.com/hub', $this->captureRender($notice));
+
+        $html = $this->captureRender($notice);
+        $I->assertStringContainsString('is-dismissible', $html);
+        $I->assertStringContainsString('https://publishpress.com/hub', $html);
+        $I->assertStringContainsString(
+            'publishpress_bundled_translations_dismiss_hub_notice',
+            $this->commonInlineScript()
+        );
+    }
+
+    public function hidesNoticeAfterTheCurrentUserDismissesIt(IntegrationTester $I): void
+    {
+        $this->setSiteLocale('de_DE');
+        $this->loginWithLocale('de_DE', 'administrator');
+
+        $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
+
+        $I->assertTrue($notice->shouldDisplay());
+
+        HubTranslationNotice::dismissForCurrentUser();
+
+        $I->assertFalse($notice->shouldDisplay());
+
+        $this->loginWithLocale('de_DE', 'administrator');
+
+        $I->assertTrue(
+            $notice->shouldDisplay(),
+            'Dismissal is stored per user, so another administrator still sees the notice.'
+        );
     }
 
     public function showsNoticeWhenSiteLanguageOptionDiffersFromTheRuntimeLocale(IntegrationTester $I): void
@@ -164,6 +201,63 @@ final class HubTranslationNoticeCest
         $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
 
         $I->assertFalse($notice->shouldDisplay());
+    }
+
+    public function hidesNoticeWhenTheCurrentScreenIsNotAllowed(IntegrationTester $I): void
+    {
+        $this->setSiteLocale('de_DE');
+        $this->loginWithLocale('de_DE', 'administrator');
+        $this->setAdminScreen('index');
+
+        $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
+
+        $I->assertFalse($notice->shouldDisplay());
+    }
+
+    public function hidesNoticeWhenThePluginAllowsNoScreens(IntegrationTester $I): void
+    {
+        $this->setSiteLocale('de_DE');
+        $this->loginWithLocale('de_DE', 'administrator');
+        remove_all_filters('publishpress_bundled_translations_hub_notice_screens');
+
+        $notice = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
+
+        $I->assertFalse($notice->shouldDisplay());
+    }
+
+    public function limitsAllowedScreensToTheMatchingTextDomain(IntegrationTester $I): void
+    {
+        $dir = sys_get_temp_dir() . '/pp-bundled-translations-' . wp_generate_password(8, false);
+        mkdir($dir);
+        touch($dir . '/other-domain-de_DE.mo');
+
+        try {
+            $this->setSiteLocale('de_DE');
+            $this->loginWithLocale('de_DE', 'administrator');
+            remove_all_filters('publishpress_bundled_translations_hub_notice_screens');
+            $ownDomain = self::TEST_DOMAIN;
+            add_filter(
+                'publishpress_bundled_translations_hub_notice_screens',
+                static function (array $screens, string $domain) use ($ownDomain): array {
+                    if ($ownDomain === $domain) {
+                        $screens[] = 'toplevel_page_hub-notice-test';
+                    }
+
+                    return $screens;
+                },
+                10,
+                2
+            );
+
+            $mine = new HubTranslationNotice(self::TEST_DOMAIN, $this->languagesDir);
+            $other = new HubTranslationNotice('other-domain', $dir);
+
+            $I->assertTrue($mine->shouldDisplay());
+            $I->assertFalse($other->shouldDisplay());
+        } finally {
+            unlink($dir . '/other-domain-de_DE.mo');
+            rmdir($dir);
+        }
     }
 
     public function hidesNoticeWhenTheNoticeFilterDisablesIt(IntegrationTester $I): void
@@ -247,6 +341,15 @@ final class HubTranslationNoticeCest
         $I->assertFalse(has_action('admin_notices', [HubTranslationNotice::class, 'onAdminNotices']));
     }
 
+    private function setAdminScreen(string $screenId): void
+    {
+        if (! function_exists('set_current_screen')) {
+            require_once ABSPATH . 'wp-admin/includes/screen.php';
+        }
+
+        set_current_screen($screenId);
+    }
+
     private function setSiteLocale(string $locale): void
     {
         $this->setSiteLanguageOption($locale);
@@ -260,7 +363,14 @@ final class HubTranslationNoticeCest
             $this->originalSiteLanguage = is_string($current) ? $current : '';
         }
 
+        // Settings → General only lists installed language packs. Bypass that
+        // check so the test can store a locale that is not installed in wp_test.
+        $allowLocale = static function () use ($locale): string {
+            return $locale;
+        };
+        add_filter('sanitize_option_WPLANG', $allowLocale, 99);
         update_option('WPLANG', $locale);
+        remove_filter('sanitize_option_WPLANG', $allowLocale, 99);
     }
 
     private function setRuntimeLocale(string $locale): void
@@ -301,5 +411,19 @@ final class HubTranslationNoticeCest
         $html = ob_get_clean();
 
         return (string) $html;
+    }
+
+    private function commonInlineScript(): string
+    {
+        $chunks = [];
+
+        foreach (['before', 'after'] as $position) {
+            $inline = wp_scripts()->get_data('common', $position);
+            if (is_array($inline)) {
+                $chunks[] = implode("\n", $inline);
+            }
+        }
+
+        return implode("\n", $chunks);
     }
 }
